@@ -14,7 +14,7 @@ function HandleClickRemove(){
     return <>
         <div className="flex items-center p-5 justify-between bg-red-500 mt-2 mb-2 rounded-lg"> 
     <div className="flex p-3">
-    <img src={cartItem?.image} alt={cartItem?.title} className="h-28 rounded-lg"/>
+    <img src={cartItem?.images[0]} alt={cartItem?.title} className="h-28 rounded-lg"/>
     <div className="ml-1 self-start space-y-5">
     <h1 className="text-xl text-white font-bold">{cartItem?.title}</h1>
     <p className="text-white font-extrabold">{cartItem?.price}</p>

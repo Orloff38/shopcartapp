@@ -10,7 +10,7 @@ export default function Cart() {
     setTotalCart(cart.reduce((acc, cur) => acc + cur.price, 0));
   }, [cart]);
   return (
-    <div className="flex justify-center">
+    <div className=" max-w-6xl flex justify-center mx-auto">
       {cart?.length ? (
         <>
          
