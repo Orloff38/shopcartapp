@@ -1,0 +1,21 @@
+
+:root{
+        --accent: #B59A7A;
+}
+
+.active{
+    color: var(--accent);
+}
+
+.circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--accent);
+    color: var(--primary-color);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-weight: 600;
+    font-size: 10px;
+}

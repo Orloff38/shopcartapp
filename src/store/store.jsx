@@ -8,4 +8,9 @@ const store = configureStore({
     }
 })
 
+
+store.subscribe(()=>{
+localStorage.setItem('cart_app_items', JSON.stringify(store.getState().cart))
+})
+
 export default store

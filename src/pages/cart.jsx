@@ -1,40 +1,78 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AnimatePresence } from "motion/react";
 import CartTile from "../components/CartTile/CartTile";
+import { IoArrowBackOutline } from "react-icons/io5";
+
 export default function Cart() {
-  const [totalCart, setTotalCart] = useState(0);
-  const { cart } = useSelector((store) => store);
-  console.log(cart);
+
+  const navigator = useNavigate()
+  const cart = useSelector((store) => store.cart);
+  let [dataCart, setDataCart] = useState([]);
+
+  async function getAllData() {
+    let responce = await Promise.all(
+      cart.map((i) => fetch(`https://dummyjson.com/products/${i.id}`)),
+    );
+    let data = await Promise.all(responce.map((i) => i.json()));
+    console.log(data);
+    setDataCart(data);
+  }
+
   useEffect(() => {
-    setTotalCart(cart.reduce((acc, cur) => acc + cur.price, 0));
+    getAllData();
   }, [cart]);
+
+  const [totalCart, setTotalCart] = useState(0);
+  console.log(cart);
+
+  useEffect(() => {
+    setTotalCart(
+      dataCart.reduce((acc, cur) => {
+        const item = cart.find((i) => i.id === cur.id);
+        return (acc += item?.count * cur?.price);
+      }, 0),
+    );
+  }, [cart, dataCart]);
+
   return (
-    <div className=" max-w-6xl flex justify-center mx-auto">
+    <div className="common_container">
+      { cart?.length>0 &&   
+      <div className="flex items-center justify-center gap-[24px]">
+         
+
+        <button className="btn_nav" onClick={()=>navigator(-1)}><IoArrowBackOutline /></button>
+      
+     
+
+        <h1 className="cart_header">CART</h1>
+     
+      </div>}
+      
+      
+    <div className="product_tile-container ">
       {cart?.length ? (
         <>
-         
-          <div className="min-h-[80vh] grid md:grid-cols-2 max-w-6xl mx-auto">
-            <div className="flex flex-col justify-center items-center p-3">
+          <div className="product_tile-wrapper">
+            <AnimatePresence>
               {cart.map((item) => (
-                <CartTile key={item.id} cartItem={item} />
+                <CartTile key={item.id} cartItemId={item.id} />
               ))}
-            </div>
-</div>
-<div className="w-[300px]">
-            <div className="flex flex-col justify-center items-end p-5 space-y-5 mt-14">
-              <h1 className="font-bold text-lg text-red-800">
-                Your Cart Summary
-              </h1>
-              <p>
-                <span className="text-gray-800 font-bold">Total Items: </span>
-                <span>{cart?.length}</span>
-              </p>
-              <p>
-                <span className="text-gray-800 font-bold">Total Amount: </span>
-                <span>{totalCart}</span>
-              </p>
-            </div>
+            </AnimatePresence>
+          </div>
+          <div className="order_summary-wrapper">
+            <h1 className="summary_header">Cart Summary</h1>
+            <p>
+              <span className="summary_title">Items: </span>
+              <span className="subtitle">{cart?.length}</span>
+            </p>
+            <p>
+              <span className="summary_title">Total: </span>
+              <span className="subtitle">${totalCart?.toFixed(2)} USD</span>
+            </p>
+
+             <button className="cart_btn_back">Proceed to order</button>
           </div>
         </>
       ) : (
@@ -43,12 +81,11 @@ export default function Cart() {
             Your Cart Is Empty
           </h1>
           <Link to="/">
-            <button className="bg-red-950 text-white border-2 rounded-lg font-bold p-4">
-              SHOP NOW
-            </button>
+            <button className="cart_btn_back">SHOP NOW</button>
           </Link>
         </div>
       )}
+    </div>
     </div>
   );
 }

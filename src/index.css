@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+:root{
+    --background: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E7E1D7;
+    --primary-text: #2a2a2a;
+    --secondary-text: #6f6A62;
+    --accent: #B59A7A;
+    --btn: #111111;
+    --btn-text: #FFFFFF;
+}
+
+*{
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+
+}
+
+.background{
+    background-color: var(--background);
+}
+
+.active{
+    color: var(--accent);
+}
