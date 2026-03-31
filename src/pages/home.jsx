@@ -33,20 +33,17 @@ export default function Home() {
       ) : (
         data?.length && <div className="category_container">
          <Link   to={`/allItems`}>
-    <div className="category_item" style={{backgroundImage: `url(${allItemsImg})`}}>
-              <div className="category_item-darker">
-
-              </div>
-               <h1>All</h1>
+    <div className="category_item" >
+              
+               <h1>all</h1>
              
               </div>
             
             </Link>
             {data.map((item) => <Link  key={item} to={`/category/${item}`}>
-           <div className="category_item" style={{backgroundImage: `url(${imgSettle[item]})`}}>
-              <div className="category_item-darker">
-
-              </div>
+           <div className="category_item">
+            
+            
                <h1>{item}</h1>
              
               </div>
